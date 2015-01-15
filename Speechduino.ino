@@ -1,16 +1,15 @@
 /***********DEFINITIONS***********/
 #define MIC A7
-
+#define LED 13
+#define BAUD 9600
 /***********LIBRARIES*************/
 #include <fix_fft.h>
 #include <BitVoicer11.h>
 #include "patterns.h"
-
 /***********CONSTANTS*************/
 const int LedRow[] = {36, 34, 32, 30, 47, 49, 51, 53};
 const int grn[] =   {31, 33, 35, 37, 39, 41, 43, 45};
 const int red[] =   {29, 27, 25, 23, 22, 24, 26, 28};
-
 /***********VARIABLES*************/
 byte dataType = 0;
 bool sleep = false;
@@ -37,14 +36,14 @@ void setup()
     pinMode(grn[i], OUTPUT);
     pinMode(LedRow[i], OUTPUT);
   }
-  pinMode(13, OUTPUT);
-  pinMode(A0, INPUT);
+  pinMode(LED, OUTPUT);
+  pinMode(MIC, INPUT);
 
   /* Bitvoicer Setup */
-  Serial.begin(9600);
+  Serial.begin(BAUD);
 
   /* Emic2 Setup */
-  Serial1.begin(9600);
+  Serial1.begin(BAUD);
   Serial1.print('\n');
   while (Serial1.read() != ':');
   Serial1.print('V-40\n');

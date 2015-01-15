@@ -15,16 +15,10 @@ byte dataType = 0;
 bool sleep = false;
 BitVoicerSerial bvSerial = BitVoicerSerial();
 
-int temp[8][8] = {
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0, 0}
-};
+enum Mode { WAKE, SLEEP, EX1, EX2, EX3, RED, GREEN, SIMONSAYS, SNAKE, VISUALIZER };
+Mode mode;
+
+int receivedNumber;
 
 /***********METHODS***************/
 void setup()
@@ -49,14 +43,15 @@ void setup()
   Serial1.print('V-40\n');
   delay(10);
   Serial1.flush();
-
+  mode = WAKE;
 }
 
 void loop()
 {
-  if (sleep == true)
+  if (mode == WAKE)
   {
-    return;
+    showSprite(happyFace, 100);
+    //SimonSays_Run();
   }
 }
 
@@ -66,24 +61,66 @@ void serialEvent()
   {
     dataType = bvSerial.getData();
     if (dataType == BV_STR)
-    {
+    { 
       String data = bvSerial.strData;
       if (data == "WAKE")
-        sleep = false;
+        mode = WAKE;
       if (data == "SLEEP")
-        sleep = true;
+        mode = SLEEP;
       if (data == "EXAMPLE1")
-        example1();
+        mode = EX1;
+      example1();
+      mode = WAKE;
       if (data == "EXAMPLE2")
-        example2();
+        mode = EX2;
+      example2();
+      mode = WAKE;
       if (data == "EXAMPLE3")
-        example3();
+        mode = EX3;
+      example3();
+      mode = WAKE;
       if (data == "RED")
-        showSprite(redLeds, 1000);
+        mode = RED;
+      showSprite(redLeds, 2000);
+      mode = WAKE;
       if (data == "GREEN")
-        showSprite(greenLeds, 1000);
-      if (data == "EIGHTBALL")
-        EightBall();
+        mode = GREEN;
+      showSprite(greenLeds, 2000);
+      mode = WAKE;
+      if (data == "SIMONSAYS")
+        mode = SIMONSAYS;
+      SimonSays_Run();
+      if (data == "SNAKE")
+        mode = SNAKE;
+      Snake_Run();
+      if (data == "VISUALIZER")
+        mode = VISUALIZER;
+      if (data == "SNAKE-UP" && mode == SNAKE)
+        moveSnake('u');
+      if (data == "SNAKE-DOWN" && mode == SNAKE)
+        moveSnake('d');
+      if (data == "SNAKE-RIGHT" && mode == SNAKE)
+        moveSnake('r');
+      if (data == "SNAKE-LEFT" && mode == SNAKE)
+        moveSnake('l');
+      if (data == "ss1" && mode == SIMONSAYS)
+        receivedNumber = 1;
+      if (data == "ss2" && mode == SIMONSAYS)
+        receivedNumber = 2;
+      if (data == "ss3" && mode == SIMONSAYS)
+        receivedNumber = 3;
+      if (data == "ss4" && mode == SIMONSAYS)
+        receivedNumber = 4;
+      if (data == "ss5" && mode == SIMONSAYS)
+        receivedNumber = 5;
+      if (data == "ss6" && mode == SIMONSAYS)
+        receivedNumber = 6;
+      if (data == "ss7" && mode == SIMONSAYS)
+        receivedNumber = 7;
+      if (data == "ss8" && mode == SIMONSAYS)
+        receivedNumber = 8;
+      if (data == "ss9" && mode == SIMONSAYS)
+        receivedNumber = 9;
     }
   }
 }

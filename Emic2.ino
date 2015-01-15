@@ -5,7 +5,7 @@ void emicSay(String s)
   Serial1.print("S" + s + "\n");
   while (Serial1.read() != ':')
   {
-    showSprite(speechduino, 10);
+    showSprite(happyFace2, 10);
   }
 }
 
@@ -33,6 +33,6 @@ void emicIntro()
   Serial1.print("D0\n");
   while (Serial1.read() != ':')
   {
-    showSprite(speechduino, 10);
+    showSprite(happyFace2, 10);
   }
 }

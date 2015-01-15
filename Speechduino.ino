@@ -18,7 +18,7 @@ bool sleep, visualize = false;
 boolean wfi, won;
 char im[128], data[128], data_avgs[14];
 BitVoicerSerial bvSerial = BitVoicerSerial();
-enum Mode { WAKE, SLEEP, EX1, EX2, EX3, RED, GREEN, SIMONSAYS, SNAKE, VISUALIZER };
+enum Mode { WAKE, SLEEP, EX1, EX2, EX3, RED, GREEN, SIMONSAYS, SNAKE, EIGHTBALL, VISUALIZER };
 Mode mode;
 /***********METHODS***************/
 void setup()
@@ -56,29 +56,34 @@ void loop()
 
 void serialEvent()
 {
-  if (sleep == false)
+  dataType = bvSerial.getData();
+
+  if (dataType == BV_STR)
   {
-    dataType = bvSerial.getData();
-    if (dataType == BV_STR)
+    String data = bvSerial.strData;
+    /***********MODES*************/
+    if (mode == SLEEP)
     {
-      String data = bvSerial.strData;
       if (data == "WAKE") {
         mode = WAKE;
       }
+    }
+    else if (mode == WAKE)
+    {
       if (data == "SLEEP") {
         mode = SLEEP;
       }
-      if (data == "EXAMPLE1" && mode != SLEEP) {
+      if (data == "EXAMPLEA") {
         mode = EX1;
         example1();
         mode = WAKE;
       }
-      if (data == "EXAMPLE2" && mode != SLEEP) {
+      if (data == "EXAMPLEB") {
         mode = EX2;
         example2();
         mode = WAKE;
       }
-      if (data == "EXAMPLE3" && mode != SLEEP) {
+      if (data == "EXAMPLEC") {
         mode = EX3;
         example3();
         mode = WAKE;
@@ -101,9 +106,15 @@ void serialEvent()
         mode = SNAKE;
         Snake_Run();
       }
+      if (data == "EIGHTBALL" && mode != SLEEP) {
+        mode = EIGHTBALL;
+        EightBall();
+      }
       if (data == "VISUALIZER" && mode != SLEEP) {
         mode = VISUALIZER;
+        Visualizer();
       }
+      /***********SNAKE*************/
       if (data == "SNAKE-UP" && mode == SNAKE ) {
         moveSnake('u');
       }
@@ -116,6 +127,7 @@ void serialEvent()
       if (data == "SNAKE-LEFT" && mode == SNAKE) {
         moveSnake('l');
       }
+      /***********SIMONSAYS*************/
       if (data == "ss1" && mode == SIMONSAYS) {
         receivedNumber = 1;
       }

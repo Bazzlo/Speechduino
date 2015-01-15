@@ -1,9 +1,3 @@
-bool visualize = false;
-int val = 0;
-
-char im[128], data[128];
-char data_avgs[14];
-
 void Visualize()
 {
   int i = 0;

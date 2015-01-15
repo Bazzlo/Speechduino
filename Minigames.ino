@@ -1,4 +1,3 @@
-int display_speed = 50;
 char* answers[20] = {
   "As I see it, yes",
   "It is certain",
@@ -29,9 +28,6 @@ void EightBall()
   int randNumber = random(20);
   emicSay(answers[randNumber]);
 }
-
-int numbers[10], currentNumber, correct;
-boolean wfi, won;
 
 void SimonSays_Start()
 {
@@ -216,10 +212,6 @@ void displayNumber(int n)
       break;
   }
 }
-
-//[y][x]
-int snakefield[8][8];
-int foodx[10], foody[10], snakex[12], snakey[12], snakelength;
 
 void Snake_Start()
 {

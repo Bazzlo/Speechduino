@@ -1,10 +1,10 @@
 void example1()
 {
   emicSay("Ardueeno executing example a");
-  showAnimation();
-  showAnimation();
-  showAnimation();
-  showAnimation();
+  for (int i = 0; i < 7; i++)
+  {
+    showAnimation();
+  }
 }
 
 void example2()

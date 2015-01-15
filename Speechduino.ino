@@ -51,7 +51,6 @@ void loop()
   if (mode == WAKE)
   {
     showSprite(happyFace, 100);
-    //SimonSays_Run();
   }
 }
 
@@ -69,43 +68,43 @@ void serialEvent()
       if (data == "SLEEP") {
         mode = SLEEP;
       }
-      if (data == "EXAMPLE1") {
+      if (data == "EXAMPLE1" && mode != SLEEP) {
         mode = EX1;
         example1();
         mode = WAKE;
       }
-      if (data == "EXAMPLE2") {
+      if (data == "EXAMPLE2" && mode != SLEEP) {
         mode = EX2;
         example2();
         mode = WAKE;
       }
-      if (data == "EXAMPLE3") {
+      if (data == "EXAMPLE3" && mode != SLEEP) {
         mode = EX3;
         example3();
         mode = WAKE;
       }
-      if (data == "RED") {
+      if (data == "RED" && mode != SLEEP) {
         mode = RED;
         showSprite(redLeds, 2000);
         mode = WAKE;
       }
-      if (data == "GREEN") {
+      if (data == "GREEN" && mode != SLEEP) {
         mode = GREEN;
         showSprite(greenLeds, 2000);
         mode = WAKE;
       }
-      if (data == "SIMONSAYS") {
+      if (data == "SIMONSAYS" && mode != SLEEP) {
         mode = SIMONSAYS;
         SimonSays_Run();
       }
-      if (data == "SNAKE") {
+      if (data == "SNAKE" && mode != SLEEP) {
         mode = SNAKE;
         Snake_Run();
       }
-      if (data == "VISUALIZER") {
+      if (data == "VISUALIZER" && mode != SLEEP) {
         mode = VISUALIZER;
       }
-      if (data == "SNAKE-UP" && mode == SNAKE) {
+      if (data == "SNAKE-UP" && mode == SNAKE ) {
         moveSnake('u');
       }
       if (data == "SNAKE-DOWN" && mode == SNAKE) {

@@ -24,9 +24,53 @@ char* answers[20] = {
 void EightBall()
 {
   delay(2000);
-  randomSeed(analogRead(A0));
+  int seed = analogRead(MIC);
+  int generatedSeed = random (-seed, seed);
+  randomSeed(generatedSeed);
   int randNumber = random(20);
   emicSay(answers[randNumber]);
+}
+
+void RollDice()
+{
+  int seed = analogRead(MIC);
+  int generatedSeed = random (-seed, seed);
+  randomSeed(generatedSeed);
+  int diceNumber = random(1, 7);
+  int diceArray[10] = {1, 3, 6, 4, 2, 3, 5, 1, 2, 6, 5, 4};
+  emicSay("Rolling");
+  for (int i = 0; i < 12; ++i)
+  {
+    showDice(diceArray[i], 300);
+  }
+  String n = String(diceNumber);
+  emicSay(n);
+  showDice(diceNumber, 3000);
+}
+
+void showDice(int dice, int time)
+{
+  switch (dice)
+  {
+    case 1:
+      showSprite(diceOne, time);
+      break;
+    case 2:
+      showSprite(diceTwo, time);
+      break;
+    case 3:
+      showSprite(diceThree, time);
+      break;
+    case 4:
+      showSprite(diceFour, time);
+      break;
+    case 5:
+      showSprite(diceFive, time);
+      break;
+    case 6:
+      showSprite(diceSix, time);
+      break;
+  }
 }
 
 void SimonSays_Start()
@@ -36,7 +80,7 @@ void SimonSays_Start()
   won = true;
   currentNumber = 0;
   correct = 0;
-  int seed = analogRead(A0);
+  int seed = analogRead(MIC);
   int generatedSeed = random (-seed, seed);
   randomSeed(generatedSeed);
   for (int i = 0; i < 10; ++i)

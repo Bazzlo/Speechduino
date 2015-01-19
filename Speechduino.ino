@@ -18,7 +18,7 @@ bool sleep, visualize = false;
 boolean wfi, won;
 char im[128], data[128], data_avgs[14];
 BitVoicerSerial bvSerial = BitVoicerSerial();
-enum Mode { WAKE, SLEEP, EX1, EX2, EX3, RED, GREEN, SIMONSAYS, SNAKE, EIGHTBALL, VISUALIZER, DICE };
+enum Mode { WAKE, SLEEP, EX1, EX2, EX3, RED, GREEN, SIMONSAYS, SNAKE, EIGHTBALL, VISUALIZER, VOLUME, DICE };
 Mode mode;
 /***********METHODS***************/
 void setup()
@@ -48,6 +48,7 @@ void setup()
 
 void loop()
 {
+  rollDice();
   if (mode == WAKE)
   {
     showSprite(happyFace, 100);
@@ -100,23 +101,27 @@ void serialEvent()
       }
       if (data == "SIMONSAYS") {
         mode = SIMONSAYS;
-        SimonSays_Run();
+        simonSaysRun();
       }
       if (data == "SNAKE") {
         mode = SNAKE;
-        Snake_Run();
+        snakeRun();
       }
       if (data == "EIGHTBALL") {
         mode = EIGHTBALL;
-        EightBall();
+        eightBall();
       }
       if (data == "VISUALIZER") {
         mode = VISUALIZER;
-        Visualizer();
+        displayVisualizer();
+      }
+      if (data == "VOLUME") {
+        mode = VOLUME;
+        displayVolume(); 
       }
       if (data == "DICE") {
         mode = DICE;
-        RollDice(); 
+        rollDice(); 
       }
       /***********SNAKE*************/
       if (data == "SNAKE-UP" && mode == SNAKE ) {

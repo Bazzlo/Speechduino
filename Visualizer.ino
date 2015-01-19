@@ -1,4 +1,4 @@
-void Visualize()
+void displayVisualizer()
 {
   int i = 0;
   while (i < 128)
@@ -45,7 +45,7 @@ void Visualize()
   showSprite(temp, 8);
 }
 
-void Volume()
+void displayVolume()
 {
   int VU = (analogRead(MIC));
   if (VU > 455 && VU < 555)

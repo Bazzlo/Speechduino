@@ -21,7 +21,7 @@ char* answers[20] = {
   "Very doubtful"
 };
 
-void EightBall()
+void eightBall()
 {
   delay(2000);
   int seed = analogRead(MIC);
@@ -31,49 +31,65 @@ void EightBall()
   emicSay(answers[randNumber]);
 }
 
-void RollDice()
+void rollDice()
 {
   int seed = analogRead(MIC);
   int generatedSeed = random (-seed, seed);
   randomSeed(generatedSeed);
   int diceNumber = random(1, 7);
-  int diceArray[10] = {1, 3, 6, 4, 2, 3, 5, 1, 2, 6, 5, 4};
+  int diceArray[12] = {1, 3, 6, 4, 2, 3, 5, 1, 2, 6, 5, 4};
   emicSay("Rolling");
   for (int i = 0; i < 12; ++i)
   {
-    showDice(diceArray[i], 300);
+    showDice(diceArray[i], 75, false);
   }
-  String n = String(diceNumber);
-  emicSay(n);
-  showDice(diceNumber, 3000);
+  showDice(diceNumber, 3000, true);
 }
 
-void showDice(int dice, int time)
+void showDice(int dice, int time, boolean speak)
 {
   switch (dice)
   {
     case 1:
+      if (speak){
+        emicSay("one");
+      }
       showSprite(diceOne, time);
       break;
     case 2:
+      if (speak){
+        emicSay("two");
+      }
       showSprite(diceTwo, time);
       break;
     case 3:
+      if (speak){
+        emicSay("three");
+      }
       showSprite(diceThree, time);
       break;
     case 4:
+      if (speak){
+        emicSay("four");
+      }
       showSprite(diceFour, time);
       break;
     case 5:
+      if (speak){
+        emicSay("five");
+      }
       showSprite(diceFive, time);
       break;
     case 6:
+      if (speak){
+        emicSay("six");
+      }
       showSprite(diceSix, time);
       break;
   }
 }
 
-void SimonSays_Start()
+void simonSaysStart()
 {
   //Set game
   wfi = true;
@@ -102,10 +118,10 @@ void SimonSays_Start()
   emicSay("Repeat the numbers you see on the screen,    eech raawnd adds another number to the list");
 }
 
-void SimonSays_Run()
+void simonSaysRun()
 {
   //Start game
-  SimonSays_Start();
+  simonSaysStart();
   for (int i = 0; i < 10; ++i)
   {
     playRound();
@@ -176,7 +192,7 @@ void displayNumber(int n)
       Serial1.print("Sone\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_one, display_speed);
+        showSprite(one, display_speed);
       }
 
       break;
@@ -186,7 +202,7 @@ void displayNumber(int n)
       Serial1.print("Stwo\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_two, display_speed);
+        showSprite(two, display_speed);
       }
 
       break;
@@ -196,7 +212,7 @@ void displayNumber(int n)
       Serial1.print("Sthree\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_three, display_speed);
+        showSprite(three, display_speed);
       }
 
       break;
@@ -206,7 +222,7 @@ void displayNumber(int n)
       Serial1.print("Sfour\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_four, display_speed);
+        showSprite(four, display_speed);
       }
       break;
     case 5:
@@ -215,7 +231,7 @@ void displayNumber(int n)
       Serial1.print("Sfive\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_five, display_speed);
+        showSprite(five, display_speed);
       }
       break;
     case 6:
@@ -224,7 +240,7 @@ void displayNumber(int n)
       Serial1.print("Ssix\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_six, display_speed);
+        showSprite(six, display_speed);
       }
       break;
     case 7:
@@ -233,7 +249,7 @@ void displayNumber(int n)
       Serial1.print("Sseven\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_seven, display_speed);
+        showSprite(seven, display_speed);
       }
       break;
     case 8:
@@ -242,7 +258,7 @@ void displayNumber(int n)
       Serial1.print("Seight\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_eight, display_speed);
+        showSprite(eight, display_speed);
       }
       break;
     case 9:
@@ -251,13 +267,13 @@ void displayNumber(int n)
       Serial1.print("Snine\n");
       while (Serial1.read() != ':')
       {
-        showSprite(ss_nine, display_speed);
+        showSprite(nine, display_speed);
       }
       break;
   }
 }
 
-void Snake_Start()
+void snakeStart()
 {
   //Set empty field
   for (int y = 0; y < 8; ++y)
@@ -284,18 +300,18 @@ void Snake_Start()
   snakex[0], snakex[1] = 4;
 }
 
-void Snake_Run()
+void snakeRun()
 {
-  Snake_Start();
+  snakeStart();
   boolean playing = true;
   while (playing)
   {
-    drawfield();
+    drawField();
     checkCollision();
   }
 }
 
-void Snake_End()
+void snakeEnd()
 {
 
 }
@@ -357,14 +373,14 @@ void checkCollision()
   {
     if (snakex[0] == snakex[i] && snakey[0] == snakey[i])
     {
-      Snake_End();
+      snakeEnd();
     }
   }
 
   //Snake out of field?
   if ((snakex[0] > 8 || snakex[0] < 0) || (snakey[0] > 8 || snakey < 0))
   {
-    Snake_End();
+    snakeEnd();
   }
 
   if ((snakex[0] == foodx[10 - (12 - snakelength)]) && (snakey[0] == foody[10 - (12 - snakelength)]))
@@ -373,7 +389,7 @@ void checkCollision()
   }
 }
 
-void drawfield()
+void drawField()
 {
   snakefield[foody[9 - snakelength]][foodx[9 - snakelength]] = 2;
   showSprite(snakefield, 100);

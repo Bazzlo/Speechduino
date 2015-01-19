@@ -1,24 +1,25 @@
-char* answers[20] = {
+char* answers[21] = {
   "As I see it, yes",
   "It is certain",
   "It is decidedly so",
-  "Mostly likely",
+  "Most likely",
   "Outlook good",
   "Signs point to yes",
   "Without a doubt",
   "Yes",
-  "Yes - definitely",
+  "Yes, definitely",
   "You may rely on it",
   "Reply hazy, try again",
   "Ask again later",
   "Better not tell you now",
   "Cannot predict now",
-  "Concentrate and ask again",
+  "Ask again later",
   "Don't count on it",
-  "My reply is no",
+  "No",
   "My sources say no",
   "Outlook not so good",
-  "Very doubtful"
+  "Very doubtful",
+  "Not a chance"
 };
 
 void eightBall()

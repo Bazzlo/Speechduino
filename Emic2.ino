@@ -5,7 +5,7 @@ void emicSay(String s)
   Serial1.print("S" + s + "\n");
   while (Serial1.read() != ':')
   {
-    //showSprite(happyFace2, 10);
+
   }
 }
 

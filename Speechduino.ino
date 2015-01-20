@@ -42,15 +42,20 @@ void setup()
   while (Serial1.read() != ':');
   Serial1.print('V-40\n');
   delay(10);
+  Serial1.print('P0\n');
+  delay(10);
   Serial1.flush();
+  delay(5000);
+  //emicParser("0");
+  
   mode = WAKE;
 }
 
 void loop()
 {
-  rollDice();
   if (mode == WAKE)
   {
+    emicSay("[:rate 200][:n0][:dv ap 90 pr 0] All your base are belong to us.");
     showSprite(happyFace, 100);
   }
 }
@@ -66,12 +71,14 @@ void serialEvent()
     if (mode == SLEEP)
     {
       if (data == "WAKE") {
+        emicSay("Waking up");
         mode = WAKE;
       }
     }
-    else if (mode == WAKE)
+    else if (mode != SLEEP)
     {
       if (data == "SLEEP") {
+        emicSay("Going to sleep-mode");
         mode = SLEEP;
       }
       if (data == "EXAMPLEA") {
@@ -91,12 +98,12 @@ void serialEvent()
       }
       if (data == "RED") {
         mode = RED;
-        showSprite(redLeds, 2000);
+        showSprite(redLeds, 500);
         mode = WAKE;
       }
       if (data == "GREEN") {
         mode = GREEN;
-        showSprite(greenLeds, 2000);
+        showSprite(greenLeds, 500);
         mode = WAKE;
       }
       if (data == "SIMONSAYS") {

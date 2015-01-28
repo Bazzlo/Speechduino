@@ -11,9 +11,8 @@ const int LedRow[] = {36, 34, 32, 30, 47, 49, 51, 53};
 const int grn[] =   {31, 33, 35, 37, 39, 41, 43, 45};
 const int red[] =   {29, 27, 25, 23, 22, 24, 26, 28};
 /***********VARIABLES*************/
-int val, numbers[10], foodx[10], foody[10], snakex[12], snakey[12], snakelength, snakefield[8][8];
+int val, numbers[10], currentNumber, receivedNumbers[8], foodx[10], foody[10], snakex[12], snakey[12], snakelength, snakefield[8][8];
 int display_speed = 50;
-int receivedNumber = 0;
 int diceArray[5][12] = {
   {1, 3, 6, 4, 2, 3, 5, 1, 2, 6, 5, 4},
   {5, 4, 3, 6, 2, 3, 4, 1, 5, 2, 3, 4},
@@ -50,7 +49,8 @@ void setup()
   Serial1.print('V-40\n');
   delay(10);
   Serial1.flush();
-  simonSaysRun();
+  //simonSaysRun();
+  example4();
   mode = WAKE;
 }
 
@@ -110,7 +110,7 @@ void serialEvent()
       }
       if (data == "SIMONSAYS") {
         mode = SIMONSAYS;
-        simonSaysRun();
+        simonSaysRun(0);
       }
       if (data == "SNAKE") {
         mode = SNAKE;
@@ -132,6 +132,9 @@ void serialEvent()
         mode = DICE;
         rollDice();
       }
+      if (data == "THANKS") {
+         speechduinoSleep();
+      }
       /***********SNAKE*************/
       if (data == "SNAKE-UP" && mode == SNAKE ) {
         moveSnake('u');
@@ -147,31 +150,31 @@ void serialEvent()
       }
       /***********SIMONSAYS*************/
       if (data == "ss1" && mode == SIMONSAYS) {
-        receivedNumber = 1;
+        //receivedNumbers = 1;
       }
       if (data == "ss2" && mode == SIMONSAYS) {
-        receivedNumber = 2;
+        //receivedNumbers = 2;
       }
       if (data == "ss3" && mode == SIMONSAYS) {
-        receivedNumber = 3;
+        //receivedNumbers = 3;
       }
       if (data == "ss4" && mode == SIMONSAYS) {
-        receivedNumber = 4;
+        //receivedNumbers = 4;
       }
       if (data == "ss5" && mode == SIMONSAYS) {
-        receivedNumber = 5;
+        //receivedNumbers = 5;
       }
       if (data == "ss6" && mode == SIMONSAYS) {
-        receivedNumber = 6;
+        //receivedNumbers = 6;
       }
       if (data == "ss7" && mode == SIMONSAYS) {
-        receivedNumber = 7;
+        //receivedNumbers = 7;
       }
       if (data == "ss8" && mode == SIMONSAYS) {
-        receivedNumber = 8;
+        //receivedNumbers = 8;
       }
       if (data == "ss9" && mode == SIMONSAYS) {
-        receivedNumber = 9;
+        //receivedNumbers = 9;
       }
     }
   }

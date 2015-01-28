@@ -92,6 +92,11 @@ void showDice(int dice, int time, boolean speak)
 void simonSaysStart()
 {
   //Set game
+  currentNumber = 0;
+  for (int i = 0; i < 8; ++i)
+  {
+     receivedNumbers[i] = 0; 
+  }
   int seed = analogRead(MIC);
   int generatedSeed = random (-seed, seed);
   randomSeed(generatedSeed);
@@ -115,52 +120,32 @@ void simonSaysStart()
   showSprite(happyFace2, 300);
 }
 
-void simonSaysRun()
+void simonSaysRun(int cn)
 {
   //Start game
   simonSaysStart();
-  for (int i = 0; i < 10; ++i)
-  {
-    playRound(i);
-  }
-}
-
-void playRound(int r)
-{
-  //Display the correct amount of numbers according to the current amount of numbers the play has achieved.
-  for (int i = 0; i <= r; ++i)
+  for (int i = 0; i <= cn; ++i)
   {
     displayNumber(numbers[i]);
   }
-  
-  for (int i = 0; i <= r; ++i)
+}
+
+void checkReceivedAmount()
+{
+  int inputNumbers;
+  for(int i = 0; i < sizeof(receivedNumbers); ++i)
   {
-    //Wait for input.
-    //Serial.flush();
-    //while (Serial.available() == 0) ;
-    while (receivedNumber == 0);
-    if (receivedNumber == numbers[i])
-    {
-      emicSay("Correct");
-      showSprite(happyFace, 500);
-      if (r == 9)
+      if(receivedNumbers[i] != 0)
       {
-        emicSay("You have won the game");
-        showSprite(happyFace2, 500);
-        delay(500);
-        return;
+         inputNumbers++; 
       }
-    }
-    else
-    {
-      emicSay("You have lost the game");
-      showSprite(sadFace2, 500);
-      delay(500);
-      return;
-    }
-    
-    receivedNumber = 0;
   }
+  /*
+  if(inputNumbers == )
+  {
+    
+  }
+  */
 }
 
 void displayNumber(int n)

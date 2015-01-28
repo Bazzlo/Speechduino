@@ -118,67 +118,73 @@ void simonSaysStart()
   emicSay("Repeat the numbers you see on the screen,    eech raawnd adds another number to the list");
 }
 
+void simonSaysStart()
+{
+  //Set game
+  int seed = analogRead(MIC);
+  int generatedSeed = random (-seed, seed);
+  randomSeed(generatedSeed);
+  for (int i = 0; i < 10; ++i)
+  {
+    numbers[i] = 0;
+  }
+
+  //Fill array with random numbers
+  for (int i = 0; i < sizeof(numbers); i++)
+  {
+    int ran = random(1, 10);
+    //Prevent repetition of 3
+    while ((numbers[i - 1] == ran) && (numbers[i - 2] == ran))
+    {
+      ran = random(1, 10);
+    }
+    numbers[i] = ran;
+  }
+  emicSay("Repeat the numbers you see on the screen,    eech raawnd adds another number to the list");
+  showSprite(happyFace2, 300);
+}
+
 void simonSaysRun()
 {
   //Start game
   simonSaysStart();
   for (int i = 0; i < 10; ++i)
   {
-    playRound();
-    currentNumber++;
+    playRound(i);
   }
 }
 
-void playRound()
+void playRound(int r)
 {
   //Display the correct amount of numbers according to the current amount of numbers the play has achieved.
-  for (int i = 0; i <= currentNumber; ++i)
+  for (int i = 0; i <= r; ++i)
   {
     displayNumber(i);
   }
-
-  //Wait for answers
-  for (int i = 0; i <= currentNumber; ++i)
+  for (int i = 0; i <= r; ++i)
   {
     //Wait for input.
     Serial.flush();
     while (!Serial.available()) ;
-    //check if input is correct
-    if (checkReceived(i))
+    if (receivedNumber == numbers[i])
     {
-      correct++;
       emicSay("Correct");
-      delay(50);
-      if (correct >= 10)
+      showSprite(happyFace, 500);
+      if (r == 9)
       {
-        delay(200);
         emicSay("You have won the game");
-        showSprite(happyFace2, 1000);
-        mode = WAKE;
-        break;
+        showSprite(happyFace2, 500);
+        delay(500);
+        return;
       }
     }
     else
     {
-      emicSay("Wrong");
-      won = false;
       emicSay("You have lost the game");
-      showSprite(sadFace2, 1000);
-      mode = WAKE;
-      break;
+      showSprite(sadFace2, 500);
+      delay(500);
+      return;
     }
-  }
-}
-
-boolean checkReceived(int n)
-{
-  if (receivedNumber == numbers[n])
-  {
-    return true;
-  }
-  else
-  {
-    return false;
   }
 }
 

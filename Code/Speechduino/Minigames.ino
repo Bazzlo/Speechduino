@@ -92,10 +92,6 @@ void showDice(int dice, int time, boolean speak)
 void simonSaysStart()
 {
   //Set game
-  wfi = true;
-  won = true;
-  currentNumber = 0;
-  correct = 0;
   int seed = analogRead(MIC);
   int generatedSeed = random (-seed, seed);
   randomSeed(generatedSeed);
@@ -109,32 +105,7 @@ void simonSaysStart()
   {
     int ran = random(1, 10);
     //Prevent repetition of 3
-    while ((numbers[i - 1] == ran) && (numbers[i - 2] == ran))
-    {
-      ran = random(1, 10);
-    }
-    numbers[i] = ran;
-  }
-  emicSay("Repeat the numbers you see on the screen,    eech raawnd adds another number to the list");
-}
-
-void simonSaysStart()
-{
-  //Set game
-  int seed = analogRead(MIC);
-  int generatedSeed = random (-seed, seed);
-  randomSeed(generatedSeed);
-  for (int i = 0; i < 10; ++i)
-  {
-    numbers[i] = 0;
-  }
-
-  //Fill array with random numbers
-  for (int i = 0; i < sizeof(numbers); i++)
-  {
-    int ran = random(1, 10);
-    //Prevent repetition of 3
-    while ((numbers[i - 1] == ran) && (numbers[i - 2] == ran))
+    while ((numbers[i - 1] == ran) && ((numbers[i - 2] == ran) && (numbers[i-3] == ran)))
     {
       ran = random(1, 10);
     }
@@ -159,13 +130,15 @@ void playRound(int r)
   //Display the correct amount of numbers according to the current amount of numbers the play has achieved.
   for (int i = 0; i <= r; ++i)
   {
-    displayNumber(i);
+    displayNumber(numbers[i]);
   }
+  
   for (int i = 0; i <= r; ++i)
   {
     //Wait for input.
-    Serial.flush();
-    while (!Serial.available()) ;
+    //Serial.flush();
+    //while (Serial.available() == 0) ;
+    while (receivedNumber == 0);
     if (receivedNumber == numbers[i])
     {
       emicSay("Correct");
@@ -185,11 +158,14 @@ void playRound(int r)
       delay(500);
       return;
     }
+    
+    receivedNumber = 0;
   }
 }
 
 void displayNumber(int n)
 {
+  int ss_display_speed = 35;
   switch (n)
   {
     case 1:
@@ -198,7 +174,7 @@ void displayNumber(int n)
       Serial1.print("Sone\n");
       while (Serial1.read() != ':')
       {
-        showSprite(one, display_speed);
+        showSprite(one, ss_display_speed);
       }
 
       break;
@@ -208,7 +184,7 @@ void displayNumber(int n)
       Serial1.print("Stwo\n");
       while (Serial1.read() != ':')
       {
-        showSprite(two, display_speed);
+        showSprite(two, ss_display_speed);
       }
 
       break;
@@ -218,7 +194,7 @@ void displayNumber(int n)
       Serial1.print("Sthree\n");
       while (Serial1.read() != ':')
       {
-        showSprite(three, display_speed);
+        showSprite(three, ss_display_speed);
       }
 
       break;
@@ -228,7 +204,7 @@ void displayNumber(int n)
       Serial1.print("Sfour\n");
       while (Serial1.read() != ':')
       {
-        showSprite(four, display_speed);
+        showSprite(four, ss_display_speed);
       }
       break;
     case 5:
@@ -237,7 +213,7 @@ void displayNumber(int n)
       Serial1.print("Sfive\n");
       while (Serial1.read() != ':')
       {
-        showSprite(five, display_speed);
+        showSprite(five, ss_display_speed);
       }
       break;
     case 6:
@@ -246,7 +222,7 @@ void displayNumber(int n)
       Serial1.print("Ssix\n");
       while (Serial1.read() != ':')
       {
-        showSprite(six, display_speed);
+        showSprite(six, ss_display_speed);
       }
       break;
     case 7:
@@ -255,7 +231,7 @@ void displayNumber(int n)
       Serial1.print("Sseven\n");
       while (Serial1.read() != ':')
       {
-        showSprite(seven, display_speed);
+        showSprite(seven, ss_display_speed);
       }
       break;
     case 8:
@@ -264,7 +240,7 @@ void displayNumber(int n)
       Serial1.print("Seight\n");
       while (Serial1.read() != ':')
       {
-        showSprite(eight, display_speed);
+        showSprite(eight, ss_display_speed);
       }
       break;
     case 9:
@@ -273,7 +249,7 @@ void displayNumber(int n)
       Serial1.print("Snine\n");
       while (Serial1.read() != ':')
       {
-        showSprite(nine, display_speed);
+        showSprite(nine, ss_display_speed);
       }
       break;
   }

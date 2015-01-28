@@ -11,11 +11,18 @@ const int LedRow[] = {36, 34, 32, 30, 47, 49, 51, 53};
 const int grn[] =   {31, 33, 35, 37, 39, 41, 43, 45};
 const int red[] =   {29, 27, 25, 23, 22, 24, 26, 28};
 /***********VARIABLES*************/
-int receivedNumber, val, numbers[10], currentNumber, correct, foodx[10], foody[10], snakex[12], snakey[12], snakelength, snakefield[8][8];
+int val, numbers[10], foodx[10], foody[10], snakex[12], snakey[12], snakelength, snakefield[8][8];
 int display_speed = 50;
+int receivedNumber = 0;
+int diceArray[5][12] = {
+  {1, 3, 6, 4, 2, 3, 5, 1, 2, 6, 5, 4},
+  {5, 4, 3, 6, 2, 3, 4, 1, 5, 2, 3, 4},
+  {2, 3, 1, 4, 5, 3, 4, 2, 3, 1, 4, 5},
+  {2, 3, 4, 2, 3, 5, 3, 4, 1, 2, 3, 2},
+  {6, 3, 4, 5, 1, 2, 3, 1, 4, 5, 2, 1}
+};
 byte dataType = 0;
 bool sleep, visualize = false;
-boolean wfi, won;
 char im[128], data[128], data_avgs[14];
 BitVoicerSerial bvSerial = BitVoicerSerial();
 enum Mode { WAKE, SLEEP, EX1, EX2, EX3, RED, GREEN, SIMONSAYS, SNAKE, EIGHTBALL, VISUALIZER, VOLUME, DICE };
@@ -42,12 +49,8 @@ void setup()
   while (Serial1.read() != ':');
   Serial1.print('V-40\n');
   delay(10);
-  Serial1.print('P0\n');
-  delay(10);
   Serial1.flush();
-  delay(5000);
-  //emicParser("0");
-  
+  simonSaysRun();
   mode = WAKE;
 }
 
@@ -55,8 +58,7 @@ void loop()
 {
   if (mode == WAKE)
   {
-    emicSay("[:rate 200][:n0][:dv ap 90 pr 0] All your base are belong to us.");
-    showSprite(happyFace, 100);
+    //showSprite(happyFace, 100);
   }
 }
 
@@ -124,11 +126,11 @@ void serialEvent()
       }
       if (data == "VOLUME") {
         mode = VOLUME;
-        displayVolume(); 
+        displayVolume();
       }
       if (data == "DICE") {
         mode = DICE;
-        rollDice(); 
+        rollDice();
       }
       /***********SNAKE*************/
       if (data == "SNAKE-UP" && mode == SNAKE ) {

@@ -1,0 +1,19 @@
+Voorwoord						Bas
+Samenvatting					Laurens
+Inhoud							?_?
+Inleiding						Bas			V
+Doelstelling(en)				Laulau
+Planning						?_?
+Onderzoek (korte samenvatting 1-2 pagina's)		Bas			V
+Realisatie						Bas
+Conclusie/Resultaten			Laulo
+Aanbeveling						Lilo
+Bijlagen						?_?
+	Onderzoek
+	E.v.t. datasheets
+	Fritzing
+
+
+[deze bijlagen staan al vast]
+Bijlage 1: Onderzoek
+Bijlage 2: Fritzing

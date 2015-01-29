@@ -51,7 +51,7 @@ void setup()
   Serial1.flush();
   //simonSaysRun();
   example4();
-  mode = WAKE;
+  //mode = SLEEP;
 }
 
 void loop()
